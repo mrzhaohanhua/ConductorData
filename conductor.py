@@ -78,16 +78,19 @@ class Conductor(object):
             return None
 
     @classmethod
-    def get_rou20(cls, iacs_percent) -> float:
+    def get_rou20(cls, iacs_percent) -> float | None:
         """
         根据IACS系数计算电阻率 Ω·mm2/m
         :param iacs_percent:50%IACS时，参数为0.5
         :return:
         """
         try:
-            return 1 / (float(iacs_percent) * cls.IACS) * 1000000
+            if 1 >= iacs_percent > 0:
+                return 1 / (float(iacs_percent) * cls.IACS) * 1000000
+            else:
+                return None
         except ValueError:
-            return 0
+            return None
 
 
 class ConductorHomo(Conductor):
